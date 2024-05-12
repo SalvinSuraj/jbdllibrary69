@@ -11,6 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -34,6 +35,9 @@ public class Library69Application implements CommandLineRunner {
 	@Autowired
 	BookCascadeSampleImpl bookCascadeSample;
 
+	@Autowired
+	RedisTemplate<String,Object> redisTemplate;
+
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -52,24 +56,20 @@ public class Library69Application implements CommandLineRunner {
 		reviews.add(new Review());
 
 
-		bookRepository.save(book);
 
-		List<Book> books =bookRepository.findAll();
+		redisTemplate.opsForValue().set("myJavaKey","myJavaValue");
+		System.out.println(redisTemplate.opsForValue().get("myJavaKey"));
 
-		//books=bookRepository.findByAuthor("JK Rowling");
 
-		books=bookRepository.findByTitleLike("testCascade");
+		redisTemplate.opsForList().rightPush("list",1);
+		redisTemplate.opsForList().rightPush("list",2);
+		redisTemplate.opsForList().rightPush("list",3);
+		redisTemplate.opsForList().rightPush("list",4);
 
-		if(!CollectionUtils.isEmpty(books)){
-			Book b=books.get(0);
-			bookCascadeSample.testCascade(b.getId());
+		System.out.println(redisTemplate.opsForList().leftPop("list"));
+		System.out.println(redisTemplate.opsForList().rightPop("list"));
 
-		}
-
-//		for(Book book1:books){
-//			System.out.println(book1.getReviewList());
-//			System.out.println(book1);
-//		}
+		redisTemplate.opsForHash().put("book",book.getTitle(),book);
 
 	}
 
