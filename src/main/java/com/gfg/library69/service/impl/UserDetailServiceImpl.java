@@ -23,18 +23,18 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     static Map<String, User> userMap = new HashMap<>();
     static {
-        User user = new User();
+        User user=new User();
         user.setId("1");
         user.setUsername("admin");
         user.setPassword("admin");
         user.setAuthority("ADMIN");
         userMap.put(user.getUsername(),user);
 
-        User user2 = new User();
-        user.setId("1");
-        user.setUsername("user");
-        user.setPassword("user");
-        user.setAuthority("USER");
+        User user2=new User();
+        user2.setId("2");
+        user2.setUsername("user");
+        user2.setPassword("user");
+        user2.setAuthority("USER");
         userMap.put(user2.getUsername(),user2);
 
     }
