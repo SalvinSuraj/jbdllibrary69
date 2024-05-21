@@ -1,5 +1,6 @@
 package com.gfg.library69.configuration;
 
+import com.gfg.library69.exception.UserAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -29,6 +30,10 @@ public class ControllerAdvice {
 
         }
         return new ResponseEntity<>(errorsMap, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<?> handleUserAlreadyExistsException(UserAlreadyExistsException e){
+        return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
     }
 
 }
